@@ -1,0 +1,55 @@
+import random
+
+print("H A N G M A N")
+while True:
+    choice = input('Type "play" to play the game, "exit" to quit:')
+    if choice != "play" and choice != "exit": # not correct input
+        continue
+    elif choice == "play": # start the game
+        print(end = "\n")
+        #create the random word
+        list_of_words = ['python', 'java', 'kotlin', 'javascript']
+        word_to_guess = random.choice(list_of_words)
+        letters_set = set(word_to_guess)
+        hidden_letters = ["-"] * len(word_to_guess)
+        used_letters = set()
+
+        #guessing the word
+        counter = 0
+        while True:
+            print(''.join(hidden_letters))
+            letter = input("Input a letter: ")
+            #mai multe litere
+            if len(letter) != 1:
+                print("You should print a single letter")
+            #nu e litera mica
+            elif ord(letter) < 97 or ord(letter) > 122:
+                print("It is not an ASCII lowercase letter")
+            #litera e in cuvant
+            elif letter in letters_set:
+                for i in range(len(word_to_guess)):
+                    if letter == word_to_guess[i]:
+                        hidden_letters[i] = word_to_guess[i]
+                used_letters.update(letter)
+                letters_set.discard(letter)
+            #litera nu e in cuvant
+            elif letter not in letters_set and letter not in used_letters:
+                print("No such letter in the word")
+                used_letters.update(letter)
+                counter += 1
+            #litera a mai fost folosita
+            elif letter in used_letters and letter not in letters_set:
+                print("You already typed this letter")
+            #conditiile de oprire
+            if counter == 8:
+                print("You are hanged!")
+                break
+            elif ''.join(hidden_letters) == word_to_guess:
+                print("You guessed the word {}!".format(''.join(hidden_letters)))
+                print("You survived!")
+                break
+            print(end = "\n")
+
+    elif choice == "exit": #game over
+        break
+        
